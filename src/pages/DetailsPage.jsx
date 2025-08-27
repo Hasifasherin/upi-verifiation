@@ -1,3 +1,4 @@
+// src/pages/DetailsPage.jsx
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function DetailsPage() {

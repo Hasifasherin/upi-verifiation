@@ -1,5 +1,10 @@
+// src/pages/FormPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import frontImg from "../assets/bg-card-front.png";
+import backImg from "../assets/bg-card-back.png";
+import bgDesktop from "../assets/bg-main-desktop.png";
+import bgMobile from "../assets/bg-main-mobile.png";
 
 export default function FormPage() {
   const [formData, setFormData] = useState({
@@ -22,60 +27,80 @@ export default function FormPage() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left  cards */}
-      <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-purple-800 via-pink-600 to-orange-400 p-6">
-        
+    <div className="min-h-screen flex flex-col lg:flex-row">
+      {/* Left Section */}
+      <div
+        className="relative lg:w-1/2 w-full min-h-[250px] lg:min-h-screen bg-cover bg-no-repeat"
+        style={{ backgroundImage: `url(${bgDesktop})` }}
+      >
+        {/* Mobile background */}
+        <div
+          className="absolute inset-0 lg:hidden bg-cover bg-no-repeat"
+          style={{ backgroundImage: `url(${bgMobile})` }}
+        ></div>
+
         {/* Front Card */}
-        <div className="w-80 h-44 rounded-xl bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 text-white p-6 shadow-lg mb-6">
-          <div className="flex justify-between">
-            <div className="w-6 h-6 rounded-full bg-white"></div>
-            <div className="w-8 h-8 rounded-full border-2 border-white"></div>
-          </div>
-          <p className="mt-8 text-xl tracking-widest">
-            {formData.number || "0000 0000 0000 0000"}
-          </p>
-          <div className="flex justify-between mt-4 text-sm">
-            <p>{formData.name || "JANE APPLESEED"}</p>
-            <p>{formData.month || "00"}/{formData.year || "00"}</p>
+        <div className="absolute top-28 left-1/2 -translate-x-1/2 lg:top-1/4 lg:left-40 lg:translate-x-0 w-[280px] h-[150px] sm:w-[320px] sm:h-[180px] text-white">
+          <img src={frontImg} alt="card front" className="w-full h-full rounded-lg shadow-lg" />
+          <div className="absolute inset-0 flex flex-col justify-between p-5">
+            <div className="flex justify-between">
+              <div className="w-8 h-8 rounded-full bg-white"></div>
+              <div className="w-6 h-6 rounded-full border-2 border-white"></div>
+            </div>
+            <div>
+              <p className="tracking-widest text-lg sm:text-xl">
+                {formData.number || "0000 0000 0000 0000"}
+              </p>
+              <div className="flex justify-between mt-2 text-xs sm:text-sm">
+                <p className="uppercase">{formData.name || "JANE APPLESEED"}</p>
+                <p>
+                  {(formData.month || "00")}/{formData.year || "00"}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Back Card */}
-        <div className="w-80 h-44 rounded-xl bg-gray-200 shadow-lg relative">
-          <div className="bg-black h-10 mt-6"></div>
-          <div className="mt-6 px-4 flex justify-end">
-            <div className="bg-gray-400 w-28 h-8 flex items-center justify-center text-sm text-black">
-              {formData.cvc || "000"}
-            </div>
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 lg:top-[55%] lg:left-60 lg:translate-x-0 w-[280px] h-[150px] sm:w-[320px] sm:h-[180px]">
+          <img src={backImg} alt="card back" className="w-full h-full rounded-lg shadow-lg" />
+          <div className="absolute top-[60px] right-8 text-white font-semibold tracking-widest text-sm sm:text-base">
+            {formData.cvc || "000"}
           </div>
         </div>
       </div>
 
-      {/* Right  form */}
-      <div className="flex-1 flex items-center justify-center bg-white">
-        <form onSubmit={handleSubmit} className="max-w-sm w-full space-y-4 px-6">
+      {/* Right Form */}
+      <div className="flex-1 flex items-center justify-center bg-white py-12 px-6">
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-sm w-full space-y-4"
+        >
           <div>
-            <label className="block text-sm font-medium">CARDHOLDER NAME</label>
+            <label className="block text-sm font-medium text-gray-700">
+              CARDHOLDER NAME
+            </label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder=" Jane "
+              placeholder="e.g. Jane Appleseed"
               className="w-full border rounded-md px-3 py-2 mt-1"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium">CARD NUMBER</label>
+            <label className="block text-sm font-medium text-gray-700">
+              CARD NUMBER
+            </label>
             <input
               type="text"
               name="number"
               value={formData.number}
               onChange={handleChange}
-              placeholder="e.g. 1234 5678 9123 000"
+              placeholder="e.g. 1234 5678 9123 0000"
               maxLength="19"
               className="w-full border rounded-md px-3 py-2 mt-1"
               required
@@ -84,7 +109,9 @@ export default function FormPage() {
 
           <div className="flex space-x-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium">EXP. DATE</label>
+              <label className="block text-sm font-medium text-gray-700">
+                EXP. DATE (MM/YY)
+              </label>
               <div className="flex space-x-2">
                 <input
                   type="text"
@@ -109,7 +136,9 @@ export default function FormPage() {
               </div>
             </div>
             <div className="flex-1">
-              <label className="block text-sm font-medium">CVC</label>
+              <label className="block text-sm font-medium text-gray-700">
+                CVC
+              </label>
               <input
                 type="text"
                 name="cvc"
@@ -125,7 +154,7 @@ export default function FormPage() {
 
           <button
             type="submit"
-            className="w-full bg-purple-900 text-white py-2 rounded-md mt-4"
+            className="w-full bg-purple-900 text-white py-3 rounded-md mt-4 hover:bg-purple-800 transition"
           >
             Confirm
           </button>

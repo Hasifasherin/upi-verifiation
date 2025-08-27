@@ -1,4 +1,3 @@
-// src/pages/FormPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import frontImg from "../assets/bg-card-front.png";
